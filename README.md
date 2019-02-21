@@ -44,7 +44,7 @@ This repo contains the following components:
 
 Install the following services and configure them to run on their default
 ports:
-* [Ruby 2.1.5](https://www.ruby-lang.org/)
+* [Ruby 2.3.8](https://www.ruby-lang.org/)
   * OS X: [RVM](http://rvm.io) is recommended over the default OS X Ruby. Here's a one-liner: `\curl -sSL https://get.rvm.io | bash -s stable --ruby
 `
 * [MongoDB 2.6.5](http://www.mongodb.org/)
