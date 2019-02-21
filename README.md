@@ -47,7 +47,7 @@ ports:
 * [Ruby 2.3.8](https://www.ruby-lang.org/)
   * OS X: [RVM](http://rvm.io) is recommended over the default OS X Ruby. Here's a one-liner: `\curl -sSL https://get.rvm.io | bash -s stable --ruby
 `
-* [MongoDB 2.6.5](http://www.mongodb.org/)
+* [MongoDB 4.0.0](http://www.mongodb.org/)
 * [Redis](http://redis.io/)
 * [RabbitMQ](http://rabbitmq.com)
 * [CouchDB](http://couchdb.apache.org)
