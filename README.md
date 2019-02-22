@@ -1,6 +1,10 @@
 OCN Website/Backend
 ===================
 
+# Note
+
+This README file has been modified in order to meet current web requirements, and the intention behind all of this changes is none other than to make life easier for anyone who would eventually like to fork and develop for this open source project.
+
 This is the code that powered the website and backend services of the former Overcast/Lifeboat PC Network.
 
 Besides the removal of some branding and configuration data, it is more or less unmodified.
