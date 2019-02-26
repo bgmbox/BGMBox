@@ -109,7 +109,7 @@ To see the ID of the server, type `server.id.to_s`.
 This 24-digit hex number is the primary key of the server in the database, and will end up in the `config.yml` file for the API plugin.
 
 Next, setup a [BungeeCord](https://github.com/OvercastNetwork/BungeeCord) server
-with the API and Commons plugins from the [ProjectAres](https://github.com/OvercastNetwork/ProjectAres) repo
+with the API and Commons(api-bungee, api-ocn, commons-bungee, [raven-bungee](https://github.com/bgmbox/raven-minecraft) & [viaversion](https://github.com/MylesIsCool/ViaVersion)) plugins from the [ProjectAres](https://github.com/OvercastNetwork/ProjectAres) repo
 (make sure to use our custom BungeeCord fork, the upstream version won't work).
 In the `config.yml` file for the API plugin, fill in the top section to match the server record you just created:
 
