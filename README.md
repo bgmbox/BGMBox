@@ -73,7 +73,7 @@ The [OCN-Data](https://github.com/OvercastNetwork/OCN-Data) repo contains static
 This includes things like permission groups, server families, and game types.
 Clone it somewhere, and create a symlink to it from `/minecraft/repo/data`.
 From the Web repo, run `rails c` to start a Rails shell session.
-From the Rails shell, run `Repository[:data].load_models` to import everything from the Data repo into MongoDB.
+From the Rails shell, run `Repository[:data].load_models` to import everything from the Data repo into MongoDB. This same command will come in handy to reload models(ranks, permissions, etc..) eventually when you need to make any changes to the data. Just run it, and any changes will automatically be visible on the server.
 
 Still from the Rails shell, run `Map.sync_ratings` to do some setup required by the couch worker.
 
