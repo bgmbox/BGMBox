@@ -111,13 +111,18 @@ This 24-digit hex number is the primary key of the server in the database, and w
 Next, setup a [BungeeCord](https://github.com/OvercastNetwork/BungeeCord) server
 with the API and Commons(api-bungeecord, api-ocn & commons-bungee) plugins from the [ProjectAres](https://github.com/OvercastNetwork/ProjectAres) repo
 (make sure to use our custom BungeeCord fork, the upstream version won't work). Optionally, you may also implement [ViaVersion](https://github.com/MylesIsCool/ViaVersion) to allow 1.13 clients on your network, and [Raven](https://github.com/bgmbox/raven-minecraft).
-In the `config.yml` file for the API plugin, fill in the top section to match the server record you just created:
+
+When inside the plugins directory of your Bungee server instance(which should at least include api-bungee, api-ocn & commons-bungee) manually create three new directories: `api/`, `api-ocn/` & `commons/` with a `config.yml` file insde each of them.
+
+In the `config.yml` file for the API & API-OCN plugins (Yeah, both are exactly the same), fill in the top section to match the server record you just created:
 
     server:
       id: 0123456789abcdef01234567        # server.id.to_s
       datacenter: DV                      # server.datacenter
       box: ...                            # server.box
       role: BUNGEE
+      
+Finally, in the `config.yml` file for Commons, fill in [this template](https://github.com/bgmbox/BGMBox-Data/blob/master/plugins/base/commons.yml) with your server's information & desired configuration.
 
 Start Bungee with a shell command similar to this:
 
