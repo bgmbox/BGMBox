@@ -21,7 +21,7 @@ class Banner
         Server.bungees.online.each(&:api_sync!)
     end
 
-    TITLE = "§b§lStratus Network"
+    TITLE = "§b§lBGMBox"
     PIXELS = 263
 
     class << self
