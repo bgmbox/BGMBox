@@ -29,7 +29,7 @@ if defined?(Bundler)
 end
 
 module ORG
-    NAME = "BGMBox"
+    NAME = "The BGMBox"
     DOMAIN = "bgmbox.com"
     SHOP = "shop.#{DOMAIN}"
     EMAIL = "support@stratus.network"
