@@ -84,6 +84,10 @@ Run the following shell commands from the Web repo to start all the backend serv
     rvmsudo rails octc -p 80 -b 0.0.0.0          	 # Public website on http://localhost:80 (default)
     rails api               			 # Internal API on http://localhost:3010
     config/worker.rb        			 # Worker daemon
+    
+If the first command outputs an error similar to
+	rvmsudo: sudo: command not found
+Giving this command a try could possibly fix it: `export rvmsudo_secure_path=1`
 
 At this point, you should be able to visit the website at `http://localhost:3000`, but there isn't much to see and you have no account to login with.
 To create an account, we'll first get a Bungee and Lobby running, and then do the standard registration process.
