@@ -189,6 +189,11 @@ Then, setup the SportBukkit instance in the same way you did for the Lobby.
 
 You now have a basic working development environment.
 
+## Some extra information:
+
+* The script that needs to be run for updating players' stats can be found [here](https://github.com/bgmbox/BGMBox/blob/master/script/player-stats.js)
+* For servers' to be able to autorestart, you must code your own 'start.sh' and program it so it starts the server periodically upon shutdown
+
 ## Coding Conventions
 
 ✔ = *Things we presently do fairly well*
