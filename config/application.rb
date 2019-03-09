@@ -32,7 +32,7 @@ module ORG
     NAME = "The BGMBox"
     DOMAIN = "bgmbox.com"
     SHOP = "shop.#{DOMAIN}"
-    EMAIL = "support@stratus.network"
+    EMAIL = "support@bgmbox.com"
 end
 
 module PGM
