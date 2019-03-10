@@ -68,13 +68,13 @@ PGM::Application.configure do
     config.action_mailer.perform_deliveries = true
     config.action_mailer.delivery_method = :smtp
     
-    if ENV['SENDGRID_USERNAME'] != nil
+    if ENV['MAIL_USERNAME'] != nil
         config.action_mailer.smtp_settings = {
-            :address   => 'smtp.sendgrid.net',
+            :address   => ORG::SMTP,
             :port      => 587,
             :domain    => ORG::DOMAIN,
-            :user_name => ENV['SENDGRID_USERNAME'],
-            :password  => ENV['SENDGRID_PASSWORD'],
+            :user_name => ENV['MAIL_USERNAME'],
+            :password  => ENV['MAIL_PASSWORD'],
             :authentication => 'plain',
             :enable_starttls_auto => true
         }

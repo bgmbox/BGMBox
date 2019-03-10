@@ -33,6 +33,7 @@ module ORG
     DOMAIN = "bgmbox.com"
     SHOP = "shop.#{DOMAIN}"
     EMAIL = "support@bgmbox.com"
+	SMTP = "smtp.bgmbox.com"
 end
 
 module PGM
