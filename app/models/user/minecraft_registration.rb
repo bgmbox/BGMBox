@@ -24,7 +24,7 @@ class User
         end
 
         # Validates and claims the given register_token, and saves the user.
-        # Called when a user connects to *.register.play.bgmbox.com
+        # Called when a user connects to *.register.some.network
         # Raises RegisterError if something goes wrong
         def claim_register_token(token)
             if self.confirmed?

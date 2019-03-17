@@ -2,7 +2,7 @@ class RegistrationsController < Devise::RegistrationsController
 
     def new
         @token = Array.new(12){[*'0'..'9', *'a'..'z'].sample}.join
-        @url = "register.play.#{ORG::DOMAIN}"
+        @url = "register.#{ORG::DOMAIN}"
     end
 
     def create

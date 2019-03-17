@@ -58,7 +58,7 @@ module Api
             ip = '1.2.3.4'
             token = User.generate_register_token
 
-            post :login, server_id: bungee.id, username: user.username, uuid: user.uuid, ip: ip, virtual_host: "#{token}.register.play.#{ORG::DOMAIN}"
+            post :login, server_id: bungee.id, username: user.username, uuid: user.uuid, ip: ip, virtual_host: "#{token}.register.#{ORG::DOMAIN}"
 
             json = assert_json_response
             assert_not_nil json['message']
