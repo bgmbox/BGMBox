@@ -67,7 +67,7 @@ module Api
 
             message and return deny_login(:error, ChatColor::RED + message)
 
-            if virtual_host =~ /\A(.*)\.register.bgmbox.com\/
+            if virtual_host =~ /\A(.*)\.register\./
                 begin
                     @user.claim_register_token($1)
                     return deny_login(:error, "§e§lRegistration was §a§lSUCCESSFUL\n\n§9Now, go back to the §bwebsite§9 for the next step!")
