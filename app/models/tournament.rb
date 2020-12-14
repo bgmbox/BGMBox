@@ -124,7 +124,8 @@ class Tournament
     end
 
     attr_accessible :name, :url, :active, :can_register_teams, :end, :registration_start, :registration_end,
-                    :details, :max_players_per_team, :min_players_per_team, :max_players_per_match, :min_players_per_match
+                    :details, :max_players_per_team, :min_players_per_team, :max_players_per_match, :min_players_per_match,
+                    :map_classifications
 
     validates_presence_of :name
     validates_format_of :url, with: /\A[a-z0-9-]+\z/
@@ -141,6 +142,7 @@ class Tournament
         [:end, :registration_start, :registration_end].each do |field|
             self[field] = self[field].utc
         end
+        self.map_classifications = {} if map_classifications.nil?
     end
 
     # Unused legacy fields

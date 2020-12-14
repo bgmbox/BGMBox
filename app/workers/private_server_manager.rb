@@ -23,14 +23,14 @@ class PrivateServerManager
     Server.owned.each do |s|
       next if s.num_online > 0 || !s.online?
 
-      if empty_times.include? s.bungee_name
-        if Time.now - empty_times[s.bungee_name] > 10.minutes
+      if empty_times.include? safe_name(s.bungee_name)
+        if Time.now - empty_times[safe_name(s.bungee_name)] > 10.minutes
           # Kill empty servers
           s.queue_restart(reason: "Automated server reset", priority: Server::Restart::Priority::HIGH)
-          empty_times.delete s.bungee_name
+          empty_times.delete safe_name(s.bungee_name)
         end
       else
-        empty_times[s.bungee_name] = Time.now
+        empty_times[safe_name(s.bungee_name)] = Time.now
       end
     end
 
@@ -45,13 +45,13 @@ class PrivateServerManager
           server = msg.document
           if !server.nil? && server.user.present? && !server.online?
             begin
-              cluster.delete_pod server.bungee_name, 'default'
+              cluster.delete_pod safe_name(server.bungee_name), 'default'
             rescue
               # Pod already gone
             end
 
             begin
-              cluster.delete_service server.bungee_name, 'default'
+              cluster.delete_service safe_name(s.bungee_name), 'default'
             rescue
               # Service already gone
             end
@@ -62,13 +62,13 @@ class PrivateServerManager
   handle UseServerRequest do |request|
     ApiSyncable.syncing do
       user = request.user
-      server = Server.find_by(user: user)
+      server = Server.find_by(name: request.name)
       if server.nil?
         server = Server.free_for_requests.first
         if server.nil?
           server = create_server
         end
-        claim_server(server, user)
+        claim_server(server, user, request.name)
       end
       create_pod(server) unless server_online?(server)
       res = UseServerResponse.new(request: request)
@@ -82,7 +82,7 @@ class PrivateServerManager
 
   def server_online?(s)
     begin
-      p = cluster.get_pod(s.bungee_name, 'default').status.phase
+      p = cluster.get_pod(safe_name(s.bungee_name), 'default').status.phase
       p == "Running" || p == "Pending"
     rescue
       false
@@ -94,7 +94,7 @@ class PrivateServerManager
     name = "Requestable-#{index}"
     Server.create(
       name: name,
-      bungee_name: name.downcase,
+      bungee_name: safe_name(name.downcase),
       ip: name.downcase,
       priority: 40 + index,
       online: false,
@@ -116,10 +116,10 @@ class PrivateServerManager
     )
   end
 
-  def claim_server(server, user)
-    name = user.username
-    bungee_name = name.downcase
-    ip = bungee_name
+  def claim_server(server, user, server_name)
+    name = server_name
+    bungee_name = safe_name(server_name.downcase)
+    ip = safe_name(bungee_name)
     server.update(name: name,
       bungee_name: bungee_name,
       ip: ip,
@@ -128,15 +128,19 @@ class PrivateServerManager
     )
   end
 
+  def safe_name(name)
+    name.gsub("_", "u")
+  end
+
   def create_pod(server)
     logger.info "Creating service for " + server.name
+    name_safe = safe_name(server.bungee_name)
     service = Kubeclient::Resource.new
     service.metadata = {
-      name: server.bungee_name,
+      name: name_safe,
       labels: {
         role: 'private',
-        type: 'minecraft',
-        user: server.bungee_name
+        user: name_safe
       },
       namespace: 'default'
     }
@@ -149,25 +153,25 @@ class PrivateServerManager
         }
       ],
       selector: {
-        user: server.bungee_name
+        user: name_safe
       }
     }
-    cluster.create_service(service)
+    begin
+      cluster.create_service(service)
+    rescue
+      logger.info "Failed to create sevice for " + server.name + " (likely already exists)"
+    end
     logger.info "Creating pod for " + server.name
     pod = Kubeclient::Resource.new
     pod.metadata = {
-      name: server.bungee_name,
+      name: name_safe,
       labels: {
         role: 'private',
-        type: 'minecraft',
-        user: server.bungee_name
+        user: name_safe
       },
       namespace: 'default'
     }
     pod.spec = {
-      nodeSelector: {
-        private: 'true'
-      },
       containers: [
         {
           name: 'minecraft',
@@ -217,7 +221,8 @@ class PrivateServerManager
           ],
           volumeMounts: [
             {
-              name: 'maps',
+              name: 'git',
+              subPath: 'maps-private',
               mountPath: '/minecraft/maps:ro'
             }
           ]
@@ -225,9 +230,9 @@ class PrivateServerManager
       ],
       volumes: [
         {
-          name: 'maps',
-          hostPath: {
-            path: '/storage/maps-private'
+          name: 'git',
+          persistentVolumeClaim: {
+            claimName: 'git'
           }
         }
       ],

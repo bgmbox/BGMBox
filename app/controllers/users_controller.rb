@@ -128,14 +128,14 @@ class UsersController < ApplicationController
         end
 
         if @stats.stat(:kills) >= 100000
-            Trophy['100k-kills'].give_to(@player)
+            Trophy['sorx4ing-beyond'].give_to(@player)
         end
 
         @trophy_count = @player.trophies.count
 
         @alts_final = @player.alts if current_user && current_user.can_index_alts?('all')
 
-        @chats = Chat.sender(@player).limit(20) if current_user_safe.has_permission?('chat', 'recent', false)
+        @chats = Chat.sender(@player).limit(20) if current_user_safe.has_permission?('chat', 'recent', true)
 
         @actions = []
         @actions << ["Edit profile", :get, edit_admin_user_path(@player.uuid)] if current_user_safe.has_permission?('user', 'admin', true) && @player.uuid
